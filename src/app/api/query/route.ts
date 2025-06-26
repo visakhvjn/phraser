@@ -35,3 +35,16 @@ export async function POST(req: Request) {
 		result: JSON.parse(response.choices[0].message.content!),
 	});
 }
+
+export async function GET() {
+	const prompt = `Get a random English phrase for the day`;
+
+	const response = await openai.chat.completions.create({
+		model: 'gpt-3.5-turbo',
+		messages: [{ role: 'user', content: prompt }],
+	});
+
+	return Response.json({
+		result: JSON.parse(response.choices[0].message.content!),
+	});
+}

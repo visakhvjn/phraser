@@ -11,6 +11,7 @@ export default function Home() {
 	const [search, setSearch] = useState<string>('');
 	const [result, setResult] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isLearnAPhraseLoading, setisLearnAPhraseLoading] = useState(false);
 
 	const handleSearch = async (input: string) => {
 		setResult(null);
@@ -36,9 +37,27 @@ export default function Home() {
 		}
 	};
 
+	const handleLearnAPhrase = async () => {
+		setisLearnAPhraseLoading(true);
+
+		const res = await fetch('/api/query', {
+			method: 'GET',
+		});
+
+		const data = await res.json();
+		setisLearnAPhraseLoading(false);
+
+		handleChange(data.result);
+
+		await handleSearch(data.result);
+	};
+
 	return (
 		<>
-			<Navbar />
+			<Navbar
+				onLearnAPharse={handleLearnAPhrase}
+				isLoading={isLearnAPhraseLoading}
+			/>
 			<div className="grid grid-rows-[20px_1fr_20px] justify-items-center min-h-screen p-2 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
 				<main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
 					{/* BANNER SECTION */}
@@ -64,6 +83,7 @@ export default function Home() {
 							)}
 							{result && <Result result={result} />}
 							{isLoading && <Loader />}
+							{isLearnAPhraseLoading && <Loader />}
 						</div>
 					</section>
 					{/* WHY USE PHRASER SECTION */}
