@@ -7,6 +7,7 @@ export type Result = {
 	sentences?: string[];
 	famousUses?: string[];
 	origin?: string;
+	searches: number;
 };
 
 type ResultCardProps = {
@@ -19,7 +20,7 @@ export default function Result({ result }: ResultCardProps) {
 			<div className="grid md:grid-cols-3 gap-4">
 				<Card title="Pronunciation" description={result?.pronunciation} />
 				<Card title="Tone" description={result?.tone} />
-				<Card title="Searches" description={'25'} />
+				<Card title="Searches" description={result?.searches} />
 			</div>
 
 			<div className="grid md:grid-cols-2 gap-4">

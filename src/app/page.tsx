@@ -38,6 +38,9 @@ export default function Home() {
 	};
 
 	const handleLearnAPhrase = async () => {
+		setResult(null);
+		setSearch('');
+
 		setisLearnAPhraseLoading(true);
 
 		const res = await fetch('/api/query', {
