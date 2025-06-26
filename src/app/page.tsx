@@ -1,7 +1,5 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-
 import Loader from '@/components/Loader';
 // import Card from '@/components/Card';
 import Navbar from '@/components/Navbar';
@@ -14,9 +12,6 @@ export default function Home() {
 	const [result, setResult] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isLearnAPhraseLoading, setisLearnAPhraseLoading] = useState(false);
-
-	const searchParams = useSearchParams();
-	const initialQuery = searchParams.get('q') || '';
 
 	const handleSearch = async (input: string) => {
 		setResult(null);
@@ -61,11 +56,14 @@ export default function Home() {
 	};
 
 	useEffect(() => {
-		if (initialQuery) {
-			setSearch(initialQuery);
-			handleSearch(initialQuery);
+		const params = new URLSearchParams(window.location.search);
+		const query = params.get('q');
+
+		if (query) {
+			setSearch(query);
+			handleSearch(query);
 		}
-	}, [initialQuery]);
+	}, []);
 
 	return (
 		<>
