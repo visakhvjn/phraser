@@ -3,7 +3,7 @@
 import { RefObject } from 'react';
 
 type Props = {
-	ref: RefObject<HTMLInputElement>;
+	ref: RefObject<HTMLInputElement | null>;
 	input: string;
 	onSearch: (text: string) => void;
 	onChange: (input: string) => void;
