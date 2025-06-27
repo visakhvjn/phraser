@@ -5,13 +5,14 @@ import Loader from '@/components/Loader';
 import Navbar from '@/components/Navbar';
 import Result from '@/components/Result';
 import SearchBox from '@/components/SearchBox';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
 	const [search, setSearch] = useState<string>('');
 	const [result, setResult] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isLearnAPhraseLoading, setisLearnAPhraseLoading] = useState(false);
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const handleSearch = async (input: string) => {
 		setResult(null);
@@ -34,6 +35,7 @@ export default function Home() {
 
 		if (!input) {
 			setResult(null);
+			inputRef.current?.focus();
 		}
 	};
 
@@ -56,6 +58,8 @@ export default function Home() {
 	};
 
 	useEffect(() => {
+		inputRef.current?.focus();
+
 		const params = new URLSearchParams(window.location.search);
 		const query = params.get('q');
 
@@ -87,6 +91,7 @@ export default function Home() {
 								input={search}
 								onChange={handleChange}
 								onSearch={handleSearch}
+								ref={inputRef}
 							/>
 							{!search && (
 								<p className="p1">

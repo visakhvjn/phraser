@@ -1,4 +1,7 @@
+import Image from 'next/image';
 import Card from './Card';
+import PlainCard from './PlainCard';
+import { speakText } from '@/utils';
 
 export type Result = {
 	definition?: string;
@@ -18,7 +21,27 @@ export default function Result({ result }: ResultCardProps) {
 	return (
 		<div className="p-6 space-y-4 text-left mt-8 w-4xl">
 			<div className="grid md:grid-cols-3 gap-4">
-				<Card title="Pronunciation" description={result?.pronunciation} />
+				<PlainCard>
+					<div>
+						<div className="flex gap-2">
+							<h3 className="text-lg font-semibold">Pronunciation</h3>
+							{result?.pronunciation && (
+								<button
+									className="cursor-pointer"
+									onClick={() => speakText(result?.pronunciation || '')}
+								>
+									<Image
+										width={17}
+										height={17}
+										src={'/speak.svg'}
+										alt="speak icon"
+									/>
+								</button>
+							)}
+						</div>
+						<p className="text-gray-600 text-md">{result?.pronunciation}</p>
+					</div>
+				</PlainCard>
 				<Card title="Tone" description={result?.tone} />
 				<Card title="Searches" description={result?.searches} />
 			</div>

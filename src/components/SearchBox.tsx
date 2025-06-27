@@ -1,12 +1,15 @@
 'use client';
 
+import { RefObject } from 'react';
+
 type Props = {
+	ref: RefObject<HTMLInputElement>;
 	input: string;
 	onSearch: (text: string) => void;
 	onChange: (input: string) => void;
 };
 
-export default function SearchBox({ input, onChange, onSearch }: Props) {
+export default function SearchBox({ ref, input, onChange, onSearch }: Props) {
 	const handleSearch = async (e: React.FormEvent) => {
 		e.preventDefault();
 		onSearch(input);
@@ -16,6 +19,7 @@ export default function SearchBox({ input, onChange, onSearch }: Props) {
 		<form onSubmit={handleSearch} className="flex gap-2">
 			<div>
 				<input
+					ref={ref}
 					value={input}
 					onChange={(e) => onChange(e.target.value)}
 					placeholder="Enter a word or phrase..."
