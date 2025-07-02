@@ -12,11 +12,19 @@ export default function Home() {
 	const [result, setResult] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isLearnAPhraseLoading, setisLearnAPhraseLoading] = useState(false);
+	const [error, setError] = useState('');
+
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const handleSearch = async (input: string) => {
 		setResult(null);
 		setIsLoading(true);
+
+		if (input.split(' ').length > 15 || input.length > 100) {
+			setError('Please provide a shorter phrase/word');
+			setIsLoading(false);
+			return;
+		}
 
 		const res = await fetch('/api/query', {
 			method: 'POST',
@@ -69,6 +77,18 @@ export default function Home() {
 		}
 	}, []);
 
+	useEffect(() => {
+		if (!error) return;
+
+		const timer = setTimeout(() => {
+			setError('');
+			setSearch('');
+			setResult(null);
+		}, 2000);
+
+		return () => clearTimeout(timer);
+	}, [error]);
+
 	return (
 		<>
 			<Navbar
@@ -93,6 +113,7 @@ export default function Home() {
 								onSearch={handleSearch}
 								ref={inputRef}
 							/>
+							{error && <p className="p1 text-red-400">{error}</p>}
 							{!search && (
 								<p className="p1">
 									Try: &quot;break a leg&quot;, &quot;serendipity&quot;, or
